@@ -18,6 +18,26 @@
     <link rel="preload" href="/ass-magic/list/animalrobot/cover-17.jpg" as="image">
     <link rel="stylesheet" href="/ass-magic/style.css?v=realism-136">
     <link rel="stylesheet" href="/ass-magic/experiments/realism/style.css?v=realism-skate-local-12">
+    <style>
+      /* Keep the official entry usable while the project-site stylesheet is
+         propagating: 180 sits clear of JUMP on narrow phones. */
+      @media (max-width: 700px) {
+        body.skate-mode #real-skate-stance {
+          display: grid;
+          place-items: center;
+          right: 130px;
+          bottom: 14px;
+          z-index: 8;
+          pointer-events: auto;
+        }
+        @supports (right: env(safe-area-inset-right)) {
+          body.skate-mode #real-skate-stance {
+            right: calc(env(safe-area-inset-right) + 120px);
+            bottom: max(14px, env(safe-area-inset-bottom));
+          }
+        }
+      }
+    </style>
     <script src="/ass-magic/experiments/realism/phase-audio-engine.js?v=realism-4"></script>
   </head>
   <body class="flight-mode is-booting">
