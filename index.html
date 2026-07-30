@@ -17,7 +17,7 @@
     <link rel="preload" href="/ass-magic/experiments/realism/assets/audio/kick-transition.mp3" as="audio" type="audio/mpeg">
     <link rel="preload" href="/ass-magic/list/animalrobot/cover-17.jpg" as="image">
     <link rel="stylesheet" href="/ass-magic/style.css?v=realism-136">
-    <link rel="stylesheet" href="/ass-magic/experiments/realism/style.css?v=chill-mode-1">
+    <link rel="stylesheet" href="/ass-magic/experiments/realism/style.css?v=music-services-4">
     <style>
       /* Keep the official entry usable while the project-site stylesheet is
          propagating: 180 sits clear of JUMP on narrow phones. */
@@ -175,9 +175,10 @@
       <div id="experience-theme-flash" class="experience-theme-flash" aria-hidden="true"><span></span></div>
 
       <section id="experience-music" class="experience-music" aria-label="音楽プレイヤー">
-        <div class="experience-music-art">
+        <button id="experience-art-link" class="experience-music-art" type="button" disabled>
           <img id="experience-art" alt="再生中のジャケット">
-        </div>
+          <span class="experience-music-service-mark" aria-hidden="true" hidden>↗</span>
+        </button>
         <div class="experience-music-copy">
           <strong id="experience-track-title"></strong>
           <div class="experience-music-actions">
@@ -201,7 +202,7 @@
 
       <div id="experience-overlay" class="experience-overlay" aria-hidden="true">
         <div class="experience-overlay-backdrop"></div>
-        <section class="experience-modal" role="dialog" aria-modal="true">
+        <section class="experience-modal" role="dialog" aria-modal="true" aria-labelledby="experience-modal-title">
           <header>
             <h2 id="experience-modal-title"></h2>
             <button id="experience-modal-close" type="button">Close</button>
@@ -296,6 +297,6 @@
       </div>
     </div>
 
-    <script type="module" src="/ass-magic/experiments/realism/planet-full.js?v=chill-steering-1"></script>
+    <script type="module" src="/ass-magic/experiments/realism/planet-full.js?v=music-services-4"></script>
   </body>
 </html>
