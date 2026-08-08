@@ -35,6 +35,39 @@
         document.documentElement.dataset.assDebug = "0";
       }
     </script>
+    <script>
+      // Social metadata is intentionally language-independent. The shared
+      // experience may localize visible UI after boot, but crawlers must
+      // always receive this official English representation from the root.
+      (() => {
+        const fixedMeta = {
+          "meta[name=description]": "Fly around a surreal 3D planet that doubles as ASS MAGIC's official site. Listen to original music and discover hidden events, entirely in your browser.",
+          "link[rel=canonical]": "https://assmagic2026.github.io/",
+          "meta[property='og:title']": "ASS MAGIC | Official Site",
+          "meta[property='og:description']": "Fly around a surreal 3D planet that doubles as ASS MAGIC's official site. Listen to original music and discover hidden events, entirely in your browser.",
+          "meta[property='og:url']": "https://assmagic2026.github.io/",
+          "meta[property='og:image']": "https://assmagic2026.github.io/assets/og-ass-planet.png",
+          "meta[name='twitter:title']": "ASS MAGIC | Official Site",
+          "meta[name='twitter:description']": "A music duo's official website is an explorable 3D planet. Fly freely, listen to original music, and discover hidden events.",
+          "meta[name='twitter:image']": "https://assmagic2026.github.io/assets/og-ass-planet.png"
+        };
+        const applyFixedMeta = () => {
+          document.title = "ASS MAGIC | Official Site";
+          Object.entries(fixedMeta).forEach(([selector, value]) => {
+            const element = document.querySelector(selector);
+            if (!element) return;
+            if (element.tagName === "LINK") element.href = value;
+            else element.content = value;
+          });
+        };
+        applyFixedMeta();
+        new MutationObserver(applyFixedMeta).observe(document.head, {
+          subtree: true,
+          attributes: true,
+          attributeFilter: ["content", "href"]
+        });
+      })();
+    </script>
     <link rel="preload" href="/ass-magic/experiments/realism/assets/models/cesium-man.glb" as="fetch" crossorigin="anonymous">
     <link rel="preload" href="/ass-magic/experiments/realism/assets/models/old-bible-1825.glb" as="fetch" crossorigin="anonymous">
     <link rel="preload" href="/ass-magic/experiments/realism/assets/rocks-ground-04-diff-1k.jpg" as="image">
