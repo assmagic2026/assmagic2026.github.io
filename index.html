@@ -5,10 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#182f34">
     <title>ASS MAGIC | Official Site</title>
+    <meta name="description" content="ASS MAGICの音楽と世界を、自由に飛び回って体験できる3D公式サイト。惑星を探索し、音楽を聴き、さまざまな出来事を発見してください。">
+    <link rel="canonical" href="https://assmagic2026.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ASS MAGIC">
+    <meta property="og:title" content="ASS MAGIC | Official Site">
+    <meta property="og:description" content="ASS MAGICの音楽と世界を、自由に飛び回って体験できる3D公式サイト。惑星を探索し、音楽を聴き、さまざまな出来事を発見してください。">
+    <meta property="og:url" content="https://assmagic2026.github.io/">
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ASS MAGIC | Official Site">
+    <meta name="twitter:description" content="ASS MAGICの音楽と世界を、自由に飛び回って体験できる3D公式サイト。惑星を探索し、音楽を聴き、さまざまな出来事を発見してください。">
     <script>
       // The empty-query root is the official realism/high/flight entry. The
       // shared game module still honours explicit query parameters unchanged.
       window.__ASS_MAGIC_ROOT_DEFAULTS__ = { mode: "realism", quality: "high", view: "flight" };
+      try {
+        document.documentElement.dataset.assDebug = new URLSearchParams(window.location.search).get("debug") === "1" ? "1" : "0";
+      } catch (error) {
+        document.documentElement.dataset.assDebug = "0";
+      }
     </script>
     <link rel="preload" href="/ass-magic/experiments/realism/assets/models/cesium-man.glb" as="fetch" crossorigin="anonymous">
     <link rel="preload" href="/ass-magic/experiments/realism/assets/models/old-bible-1825.glb" as="fetch" crossorigin="anonymous">
@@ -18,6 +35,7 @@
     <link rel="preload" href="/ass-magic/list/animalrobot/cover-17.jpg" as="image">
     <link rel="stylesheet" href="/ass-magic/style.css?v=realism-136">
     <link rel="stylesheet" href="/ass-magic/experiments/realism/style.css?v=music-services-8">
+    <link rel="stylesheet" href="/ass-magic/experiments/realism/site-readiness.css?v=international-root-1">
     <style>
       /* Keep the official entry usable while the project-site stylesheet is
          propagating: 180 sits clear of JUMP on narrow phones. */
@@ -39,22 +57,27 @@
       }
     </style>
     <script src="/ass-magic/experiments/realism/phase-audio-engine.js?v=kick-transition-1"></script>
+    <script defer src="/ass-magic/experiments/realism/site-readiness.js?v=international-root-1"></script>
   </head>
   <body class="flight-mode is-booting experience-pending">
+    <div class="ass-language-switch" role="group" aria-label="言語を選択">
+      <button type="button" data-ass-language="ja" aria-label="日本語に切り替える" aria-pressed="true">JP</button>
+      <button type="button" data-ass-language="en" aria-label="英語に切り替える" aria-pressed="false">EN</button>
+    </div>
     <div id="opening-curtain" aria-hidden="false">
-      <section id="experience-mode-selection" aria-label="体験を選択">
+      <section id="experience-mode-selection" aria-label="体験を選択" data-ass-i18n-aria-label="a11y.experienceSelection">
         <header class="experience-mode-heading">
-          <h1>ASSの惑星</h1>
+          <h1 data-ass-i18n="opening.planet">ASSの惑星</h1>
           <p>ASS MAGIC official site</p>
         </header>
-        <div class="experience-mode-options" role="group" aria-label="体験モード">
+        <div class="experience-mode-options" role="group" aria-label="体験モード" data-ass-i18n-aria-label="a11y.experienceModes">
           <button class="experience-mode-option" type="button" data-experience-mode="main" aria-pressed="false">
-            <strong>本編</strong>
-            <span>壮大で小さな救いの物語</span>
+            <strong data-ass-i18n="opening.main">本編</strong>
+            <span data-ass-i18n="opening.mainDescription">壮大で小さな救いの物語</span>
           </button>
           <button class="experience-mode-option" type="button" data-experience-mode="chill" aria-pressed="false">
-            <strong>Chillモード</strong>
-            <span>ただただ気持ちよく飛行</span>
+            <strong data-ass-i18n="opening.chill">Chillモード</strong>
+            <span data-ass-i18n="opening.chillDescription">ただただ気持ちよく飛行</span>
           </button>
         </div>
       </section>
@@ -71,7 +94,7 @@
       <div id="opening-loading">LOADING...</div>
     </div>
     <main id="stage">
-      <canvas id="scene" aria-label="惑星全体のリアル表現負荷試験"></canvas>
+      <canvas id="scene" aria-label="惑星全体のリアル表現負荷試験" data-ass-i18n-aria-label="a11y.planetScene"></canvas>
 
       <div id="site-title" class="capture-hide">ASS MAGIC</div>
       <button id="menu-toggle" class="ui-control capture-hide" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
@@ -96,23 +119,23 @@
             </nav>
             <div id="site-menu-pages" class="ui-control">
               <section class="menu-page is-active" data-page="about">
-                <h2>ASS MAGICとは</h2>
-                <p>夫婦で活動する謎の音楽ユニット</p>
+                <h2 data-ass-i18n="menu.aboutTitle">ASS MAGICとは</h2>
+                <p data-ass-i18n="menu.aboutCopy">夫婦で活動する謎の音楽ユニット</p>
                 <a class="menu-link-card ui-control" href="https://x.com/ASSMAGIC2022" target="_blank" rel="noreferrer noopener" aria-label="ASS MAGIC on X">
                   <span class="menu-link-label">X</span><span class="menu-link-value">@ASSMAGIC2022</span>
                 </a>
               </section>
               <section class="menu-page" data-page="game">
                 <h2>GAME</h2>
-          <a class="menu-link-card ui-control" data-menu-route href="/ass-magic/mendako/" aria-label="メンダコを開く">
-                  <span class="menu-link-label">メンダコ</span><span class="menu-link-value">Play</span>
+          <a class="menu-link-card ui-control" data-menu-route href="/ass-magic/mendako/" aria-label="メンダコを開く" data-ass-i18n-aria-label="a11y.openMendako">
+                  <span class="menu-link-label" data-ass-i18n="menu.mendako">メンダコ</span><span class="menu-link-value">Play</span>
                 </a>
-          <a class="menu-link-card ui-control" data-menu-route href="/ass-magic/?legacy=1" aria-label="旧・ASSの惑星を開く">
-                  <span class="menu-link-label">Legacy</span><span class="menu-link-value">旧・ASSの惑星</span>
+          <a class="menu-link-card ui-control" data-menu-route href="/ass-magic/?legacy=1" aria-label="旧・ASSの惑星を開く" data-ass-i18n-aria-label="a11y.openLegacyPlanet">
+                  <span class="menu-link-label">Legacy</span><span class="menu-link-value" data-ass-i18n="menu.legacyPlanet">旧・ASSの惑星</span>
                 </a>
               </section>
-              <section class="menu-page" data-page="interview"><h2>INTERVIEW</h2><p>まだされてません</p></section>
-              <section class="menu-page" data-page="goods"><h2>GOODS</h2><p>まだ作ってません</p></section>
+              <section class="menu-page" data-page="interview"><h2>INTERVIEW</h2><p data-ass-i18n="menu.notYet">まだされてません</p></section>
+              <section class="menu-page" data-page="goods"><h2>GOODS</h2><p data-ass-i18n="menu.notYet">まだ作ってません</p></section>
               <section class="menu-page" data-page="credits">
                 <h2>CREDITS / ASSET LICENSES</h2>
                 <p>Player model: “Cesium Man”, donated by Cesium for glTF testing.</p>
@@ -166,33 +189,33 @@
       </label>
       <div id="flight-readout" class="flight-readout" aria-live="polite"></div>
       <button id="real-skate-toggle" class="real-skate-button" type="button">SKATE</button>
-      <div id="real-skate-controls" aria-label="スケート操作">
+      <div id="real-skate-controls" aria-label="スケート操作" data-ass-i18n-aria-label="a11y.skateControls">
         <button id="real-skate-fly" class="real-skate-button" type="button">FLY</button>
-        <button id="real-skate-stance" class="real-skate-stance-button" type="button" aria-label="スタンスをレギュラーからグーフィーへ切り替え" aria-pressed="false">180</button>
+        <button id="real-skate-stance" class="real-skate-stance-button" type="button" aria-label="スタンスをレギュラーからグーフィーへ切り替え" data-ass-i18n-aria-label="a11y.stanceToggle" aria-pressed="false">180</button>
         <button id="real-skate-jump" class="real-skate-button" type="button">JUMP</button>
       </div>
       <div id="experience-challenge-timer" class="experience-challenge-timer" aria-live="polite"></div>
       <div id="experience-theme-flash" class="experience-theme-flash" aria-hidden="true"><span></span></div>
 
-      <section id="experience-music" class="experience-music" aria-label="音楽プレイヤー">
+      <section id="experience-music" class="experience-music" aria-label="音楽プレイヤー" data-ass-i18n-aria-label="a11y.musicPlayer">
         <button id="experience-art-link" class="experience-music-art" type="button" disabled>
-          <img id="experience-art" alt="再生中のジャケット">
+          <img id="experience-art" alt="再生中のジャケット" data-ass-i18n-alt="music.artAlt">
         </button>
         <div class="experience-music-copy">
           <strong id="experience-track-title"></strong>
           <div class="experience-music-actions">
-            <button id="experience-play" type="button" aria-label="再生">
+            <button id="experience-play" type="button" aria-label="再生" data-ass-i18n-aria-label="music.play">
               <span class="experience-toggle-icon" aria-hidden="true"></span>
             </button>
-            <button id="experience-next" type="button" aria-label="次の曲">
+            <button id="experience-next" type="button" aria-label="次の曲" data-ass-i18n-aria-label="music.next">
               <span class="experience-next-icon" aria-hidden="true"><span></span></span>
             </button>
-            <button id="experience-lyrics-toggle" type="button" aria-label="歌詞表示" aria-pressed="false">Lyric</button>
+            <button id="experience-lyrics-toggle" type="button" aria-label="歌詞表示" data-ass-i18n-aria-label="music.lyrics" aria-pressed="false">Lyric</button>
           </div>
         </div>
       </section>
 
-      <aside id="experience-lyrics" class="experience-lyrics" aria-label="歌詞">
+      <aside id="experience-lyrics" class="experience-lyrics" aria-label="歌詞" data-ass-i18n-aria-label="a11y.lyrics">
         <button id="experience-lyrics-close" type="button">Close</button>
         <pre id="experience-lyrics-text"></pre>
       </aside>
@@ -213,54 +236,54 @@
       <audio id="experience-audio" preload="metadata"></audio>
         <audio id="environment-dematerialize-audio" src="/ass-magic/experiments/realism/assets/audio/kick-transition.mp3" preload="auto" playsinline></audio>
         <audio id="environment-rematerialize-audio" src="/ass-magic/experiments/realism/assets/audio/kick-transition.mp3" preload="auto" playsinline></audio>
-      <div class="loading is-hidden" id="loading" hidden>ASSの惑星</div>
+      <div class="loading is-hidden" id="loading" hidden data-ass-i18n="loading.planet">ASSの惑星</div>
     </main>
 
     <div id="ending-whiteout" aria-hidden="true">
-      <div id="ending-true-message">ありがとうニャー</div>
+      <div id="ending-true-message" data-ass-i18n="ending.trueMessage">ありがとうニャー</div>
     </div>
     <div id="ending-overlay" aria-hidden="true">
       <div id="ending-panel" class="ui-control" role="dialog" aria-modal="true" aria-label="Ending">
         <div id="ending-rise" aria-hidden="true"></div>
         <div id="ending-roll-viewport" aria-hidden="true">
           <div id="ending-roll-track">
-            <div class="ending-roll-credit"><div class="ending-roll-role">制作</div><div class="ending-roll-name">ASS MAGIC</div></div>
-            <div class="ending-roll-credit"><div class="ending-roll-role">音楽</div><div class="ending-roll-name">ASS MAGIC</div></div>
-            <div class="ending-roll-credit"><div class="ending-roll-role">アートディレクション</div><div class="ending-roll-name">ASS MAGIC</div></div>
-            <div class="ending-roll-credit"><div class="ending-roll-role">クリエイティブディレクション</div><div class="ending-roll-name">ASS MAGIC</div></div>
-            <div class="ending-roll-credit"><div class="ending-roll-role">出演</div><div class="ending-roll-name">絹枝</div></div>
-            <div class="ending-roll-credit"><div class="ending-roll-role">Special Thanks</div><div class="ending-roll-name">皆様</div></div>
-            <div class="ending-roll-credit"><div class="ending-roll-role">帰還成功者</div><div id="ending-returnees-list" class="ending-roll-list">未確認</div></div>
-            <div class="ending-roll-credit"><div class="ending-roll-role">真の帰還成功者</div><div id="ending-true-returnees-list" class="ending-roll-list">未確認</div></div>
+            <div class="ending-roll-credit"><div class="ending-roll-role" data-ass-i18n="ending.production">制作</div><div class="ending-roll-name">ASS MAGIC</div></div>
+            <div class="ending-roll-credit"><div class="ending-roll-role" data-ass-i18n="ending.music">音楽</div><div class="ending-roll-name">ASS MAGIC</div></div>
+            <div class="ending-roll-credit"><div class="ending-roll-role" data-ass-i18n="ending.artDirection">アートディレクション</div><div class="ending-roll-name">ASS MAGIC</div></div>
+            <div class="ending-roll-credit"><div class="ending-roll-role" data-ass-i18n="ending.creativeDirection">クリエイティブディレクション</div><div class="ending-roll-name">ASS MAGIC</div></div>
+            <div class="ending-roll-credit"><div class="ending-roll-role" data-ass-i18n="ending.cast">出演</div><div class="ending-roll-name">絹枝</div></div>
+            <div class="ending-roll-credit"><div class="ending-roll-role">Special Thanks</div><div class="ending-roll-name" data-ass-i18n="ending.thanks">皆様</div></div>
+            <div class="ending-roll-credit"><div class="ending-roll-role" data-ass-i18n="ending.returnees">帰還成功者</div><div id="ending-returnees-list" class="ending-roll-list" data-ass-i18n="ending.unconfirmed">未確認</div></div>
+            <div class="ending-roll-credit"><div class="ending-roll-role" data-ass-i18n="ending.trueReturnees">真の帰還成功者</div><div id="ending-true-returnees-list" class="ending-roll-list" data-ass-i18n="ending.unconfirmed">未確認</div></div>
             <div class="ending-roll-credit ending-roll-credit-last"></div>
           </div>
         </div>
-        <button id="ending-restart-trigger" class="ui-control" type="button" aria-label="最初の飛行画面に戻る">END</button>
-        <button id="ending-close" class="ui-control" type="button">閉じる</button>
+        <button id="ending-restart-trigger" class="ui-control" type="button" aria-label="最初の飛行画面に戻る" data-ass-i18n-aria-label="a11y.restartFlight">END</button>
+        <button id="ending-close" class="ui-control" type="button" data-ass-i18n="ending.close">閉じる</button>
       </div>
     </div>
 
     <div id="book-overlay" aria-hidden="true">
       <div id="book-backdrop" class="ui-control"></div>
-      <div id="book-panel" class="ui-control" role="dialog" aria-modal="true" aria-label="記録の本">
+      <div id="book-panel" class="ui-control" role="dialog" aria-modal="true" aria-label="記録の本" data-ass-i18n-aria-label="book.dialog">
         <div id="book-panel-head"><button id="book-close" class="ui-control" type="button" aria-label="Close book">Close</button></div>
-        <div id="book-mode-switch" class="ui-control" role="tablist" aria-label="Book actions">
-          <button id="book-view-write" class="book-mode-btn ui-control" type="button" data-book-view="write" aria-selected="false">何か書き残す</button>
-          <button id="book-view-read" class="book-mode-btn ui-control is-active" type="button" data-book-view="read" aria-selected="true">読んでみる</button>
+        <div id="book-mode-switch" class="ui-control" role="tablist" aria-label="Book actions" data-ass-i18n-aria-label="book.actions">
+          <button id="book-view-write" class="book-mode-btn ui-control" type="button" data-book-view="write" aria-selected="false" data-ass-i18n="book.write">何か書き残す</button>
+          <button id="book-view-read" class="book-mode-btn ui-control is-active" type="button" data-book-view="read" aria-selected="true" data-ass-i18n="book.read">読んでみる</button>
         </div>
         <div id="book-spread">
           <section class="book-view book-page is-active" data-book-view="read">
             <div class="book-page-label">READ</div>
             <div id="book-message-page" class="ui-control" aria-live="polite"></div>
-            <button id="book-next-page" class="ui-control" type="button">ページをめくる</button>
+            <button id="book-next-page" class="ui-control" type="button" data-ass-i18n="book.nextPage">ページをめくる</button>
           </section>
           <section class="book-view book-page" data-book-view="write">
             <div class="book-page-label">WRITE</div>
             <form id="book-form" class="ui-control">
-              <input id="book-name" class="ui-control" type="text" maxlength="24" placeholder="名前（任意）">
-              <textarea id="book-message-input" class="ui-control" rows="6" maxlength="280" placeholder="何を書く？"></textarea>
-              <button id="book-submit" class="ui-control" type="submit">記す</button>
-              <div id="book-status">本の記録を読み込んでいます。</div>
+              <input id="book-name" class="ui-control" type="text" maxlength="24" placeholder="名前（任意）" data-ass-i18n-placeholder="book.namePlaceholder">
+              <textarea id="book-message-input" class="ui-control" rows="6" maxlength="280" placeholder="何を書く？" data-ass-i18n-placeholder="book.messagePlaceholder"></textarea>
+              <button id="book-submit" class="ui-control" type="submit" data-ass-i18n="book.submit">記す</button>
+              <div id="book-status" data-ass-i18n="book.loading">本の記録を読み込んでいます。</div>
             </form>
           </section>
         </div>
@@ -269,30 +292,30 @@
 
     <div id="black-box-overlay" aria-hidden="true">
       <div id="black-box-backdrop" class="ui-control"></div>
-      <div id="black-box-panel" class="ui-control" role="dialog" aria-modal="true" aria-label="黒い箱">
+      <div id="black-box-panel" class="ui-control" role="dialog" aria-modal="true" aria-label="黒い箱" data-ass-i18n-aria-label="blackBox.dialog">
         <div id="black-box-head">
-          <div id="black-box-title"><span class="black-box-kicker">高速移動する</span><span class="black-box-main-title">黒い箱を捕獲</span></div>
+          <div id="black-box-title"><span class="black-box-kicker" data-ass-i18n="blackBox.moving">高速移動する</span><span class="black-box-main-title" data-ass-i18n="blackBox.captured">黒い箱を捕獲</span></div>
           <button id="black-box-close" class="ui-control" type="button" aria-label="Close black box">Close</button>
         </div>
         <div id="black-box-view-intro" class="black-box-view is-active">
-          <div id="black-box-actions"><button id="black-box-open" class="ui-control" type="button">開けてみる</button><button id="black-box-ignore" class="ui-control" type="button">ほっとく</button></div>
+          <div id="black-box-actions"><button id="black-box-open" class="ui-control" type="button" data-ass-i18n="blackBox.open">開けてみる</button><button id="black-box-ignore" class="ui-control" type="button" data-ass-i18n="blackBox.ignore">ほっとく</button></div>
         </div>
         <div id="black-box-view-reveal" class="black-box-view">
-          <img id="black-box-cat-image" src="/ass-magic/blackbox-cat.jpg" alt="箱の中にいた猫">
-          <div id="black-box-caption">かわいいのがいた。</div>
-          <div id="black-box-reveal-actions"><a id="black-box-download" class="ui-control" href="/ass-magic/blackbox-cat.jpg" download="blackbox-cat.jpg">保存する</a></div>
+          <img id="black-box-cat-image" src="/ass-magic/blackbox-cat.jpg" alt="箱の中にいた猫" data-ass-i18n-alt="blackBox.catAlt">
+          <div id="black-box-caption" data-ass-i18n="blackBox.caption">かわいいのがいた。</div>
+          <div id="black-box-reveal-actions"><a id="black-box-download" class="ui-control" href="/ass-magic/blackbox-cat.jpg" download="blackbox-cat.jpg" data-ass-i18n="blackBox.download">保存する</a></div>
         </div>
         <div id="black-box-view-cat-route" class="black-box-view">
-          <div id="black-box-cat-route-copy"><p class="black-box-dialog-line">あなた「お前も帰りたいか？」</p><p class="black-box-dialog-line">猫「にゃー」</p></div>
+          <div id="black-box-cat-route-copy"><p class="black-box-dialog-line" data-ass-i18n="blackBox.playerLine">あなた「お前も帰りたいか？」</p><p class="black-box-dialog-line" data-ass-i18n="blackBox.catLine">猫「にゃー」</p></div>
         </div>
       </div>
     </div>
 
     <div id="music-selector-overlay" aria-hidden="true">
       <div id="music-selector-backdrop" class="ui-control"></div>
-      <div id="music-selector-panel" class="ui-control" role="dialog" aria-modal="true" aria-label="曲を選ぶ">
+      <div id="music-selector-panel" class="ui-control" role="dialog" aria-modal="true" aria-label="曲を選ぶ" data-ass-i18n-aria-label="a11y.trackPicker">
         <div id="music-selector-head"><button id="music-selector-close" class="ui-control" type="button" aria-label="Close music selector">Close</button></div>
-        <div id="music-selector-browser"><div id="music-selector-now-playing"></div><div id="music-selector-list" class="ui-control" aria-label="楽曲リスト"></div></div>
+        <div id="music-selector-browser"><div id="music-selector-now-playing"></div><div id="music-selector-list" class="ui-control" aria-label="楽曲リスト" data-ass-i18n-aria-label="a11y.trackList"></div></div>
       </div>
     </div>
 
