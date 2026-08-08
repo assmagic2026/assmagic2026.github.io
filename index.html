@@ -56,15 +56,19 @@
           Object.entries(fixedMeta).forEach(([selector, value]) => {
             const element = document.querySelector(selector);
             if (!element) return;
-            if (element.tagName === "LINK") element.href = value;
-            else element.content = value;
+            if (element.tagName === "LINK") {
+              if (element.href !== value) element.href = value;
+            } else if (element.content !== value) {
+              element.content = value;
+            }
           });
         };
         applyFixedMeta();
-        new MutationObserver(applyFixedMeta).observe(document.head, {
-          subtree: true,
-          attributes: true,
-          attributeFilter: ["content", "href"]
+        // Do not observe <head>: writing an observed meta attribute creates
+        // another mutation and can starve the page's render loop. Language
+        // changes are the sole event that can request a metadata refresh.
+        document.addEventListener("assmagic:locale-changed", () => {
+          window.setTimeout(applyFixedMeta, 0);
         });
       })();
     </script>
