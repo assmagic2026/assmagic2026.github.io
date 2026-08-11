@@ -18,7 +18,7 @@ jobs:
         env:
           CF_ACCOUNT_ID: 642e2e69809bb007672c7614596ba234
           CF_SITE_TAG: 8d9ad917bb03464c989c2f618c2f529c
-          CF_ANALYTICS_TOKEN: \${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN }}
+          CF_ANALYTICS_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN }}
         with:
           script: |
             const token = process.env.CF_ANALYTICS_TOKEN;
