@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "ass-magic-engagement",
+  "main": "src/index.js",
+  "account_id": "642e2e69809bb007672c7614596ba234",
+  "compatibility_date": "2026-08-12",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "analytics_engine_datasets": [
+    {
+      "binding": "ENGAGEMENT",
+      "dataset": "ass_magic_engagement"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "head_sampling_rate": 0.01
+    }
+  }
+}

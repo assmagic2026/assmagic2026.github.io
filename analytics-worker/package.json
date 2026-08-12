@@ -1,0 +1,13 @@
+{
+  "name": "ass-magic-engagement-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --test && wrangler deploy --dry-run --outdir /tmp/ass-magic-engagement-worker-check",
+    "deploy": "wrangler deploy --minify",
+    "deploy:dry-run": "wrangler deploy --dry-run --outdir /tmp/ass-magic-engagement-worker-dry-run"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

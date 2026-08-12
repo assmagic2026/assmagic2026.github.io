@@ -18,6 +18,7 @@ jobs:
         env:
           CF_ACCOUNT_ID: 642e2e69809bb007672c7614596ba234
           CF_SITE_TAG: 8d9ad917bb03464c989c2f618c2f529c
+          CF_ENGAGEMENT_DATASET: ass_magic_engagement
           CF_ANALYTICS_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN }}
         with:
           script: |
@@ -108,6 +109,86 @@ jobs:
             const total = account.total?.[0] || {};
             const visits = total.sum?.visits ?? 0;
             const pageviews = total.count ?? 0;
+            const formatDuration = (value) => {
+              const seconds = Math.max(0, Math.round(Number(value) || 0));
+              const hours = Math.floor(seconds / 3600);
+              const minutes = Math.floor((seconds % 3600) / 60);
+              const remainder = seconds % 60;
+              if (hours) return hours + "h " + minutes + "m " + remainder + "s";
+              if (minutes) return minutes + "m " + remainder + "s";
+              return remainder + "s";
+            };
+
+            let engagement = null;
+            let engagementNote = "Engaged-time measurement has not received data yet.";
+            try {
+              const dataset = process.env.CF_ENGAGEMENT_DATASET;
+              if (!/^[A-Za-z0-9_]+$/.test(dataset || "")) {
+                throw new Error("Invalid Analytics Engine dataset name.");
+              }
+
+              const startUtc = new Date(start).toISOString().slice(0, 19).replace("T", " ");
+              const endExclusive = new Date(new Date(start).getTime() + 24 * 60 * 60 * 1000);
+              const endUtc = endExclusive.toISOString().slice(0, 19).replace("T", " ");
+              const engagementQuery = [
+                "SELECT",
+                "  sum(sample_weight) AS sessions,",
+                "  sum(sample_weight * engaged_seconds) AS total_seconds,",
+                "  sum(sample_weight * engaged_seconds) / sum(sample_weight) AS average_seconds,",
+                "  quantileExactWeighted(0.5)(engaged_seconds, sample_weight) AS median_seconds,",
+                "  sumIf(sample_weight, engaged_seconds >= 60) AS sessions_60_seconds",
+                "FROM (",
+                "  SELECT",
+                "    blob1 AS session_id,",
+                "    max(double1) AS engaged_seconds,",
+                "    max(_sample_interval) AS sample_weight",
+                "  FROM " + dataset,
+                "  WHERE timestamp >= toDateTime('" + startUtc + "')",
+                "    AND timestamp < toDateTime('" + endUtc + "')",
+                "  GROUP BY session_id",
+                ")",
+                "FORMAT JSON",
+              ].join("\n");
+
+              const engagementResponse = await fetch(
+                "https://api.cloudflare.com/client/v4/accounts/" +
+                  process.env.CF_ACCOUNT_ID + "/analytics_engine/sql",
+                {
+                  method: "POST",
+                  headers: {
+                    authorization: "Bearer " + token,
+                    "content-type": "text/plain;charset=UTF-8",
+                  },
+                  body: engagementQuery,
+                }
+              );
+              const engagementText = await engagementResponse.text();
+              if (!engagementResponse.ok) {
+                throw new Error(
+                  "Analytics Engine request failed (" + engagementResponse.status + "): " +
+                    engagementText.slice(0, 500)
+                );
+              }
+
+              const engagementPayload = JSON.parse(engagementText);
+              const row = engagementPayload.data?.[0];
+              const sessions = Number(row?.sessions) || 0;
+              const sessions60 = Number(row?.sessions_60_seconds) || 0;
+              engagement = {
+                sessions,
+                totalSeconds: Number(row?.total_seconds) || 0,
+                averageSeconds: Number(row?.average_seconds) || 0,
+                medianSeconds: Number(row?.median_seconds) || 0,
+                sessions60,
+                oneMinuteRate: sessions ? (sessions60 / sessions) * 100 : 0,
+              };
+              engagementNote = sessions
+                ? "Visible-tab time; hidden/background time is excluded."
+                : "No completed visible-time snapshots were received for this day.";
+            } catch (error) {
+              core.warning("Engaged-time analytics unavailable: " + String(error));
+            }
+
             const section = (rows, dimension, emptyLabel) => {
               if (!rows?.length) return "- No data";
               return rows
@@ -129,6 +210,25 @@ jobs:
               "- **" + visits + "** visits",
               "- **" + pageviews + "** page views",
               "",
+              "## Engaged time",
+              engagement
+                ? "- **" + engagement.sessions + "** measured page sessions"
+                : "- Measurement pending / unavailable",
+              engagement
+                ? "- Average: **" + formatDuration(engagement.averageSeconds) + "**"
+                : "- Average: —",
+              engagement
+                ? "- Median: **" + formatDuration(engagement.medianSeconds) + "**"
+                : "- Median: —",
+              engagement
+                ? "- Total visible time: **" + formatDuration(engagement.totalSeconds) + "**"
+                : "- Total visible time: —",
+              engagement
+                ? "- 1 minute or longer: **" + engagement.sessions60 + "** (" +
+                    engagement.oneMinuteRate.toFixed(1) + "%)"
+                : "- 1 minute or longer: —",
+              "- " + engagementNote,
+              "",
               "## Top referrers",
               section(account.referrers, "refererHost", "Direct / unknown"),
               "",
@@ -141,7 +241,7 @@ jobs:
               "## Devices",
               section(account.devices, "deviceType", "Unknown device"),
               "",
-              "_Generated automatically from Cloudflare Web Analytics. Re-running this workflow updates this issue instead of creating a duplicate._",
+              "_Generated automatically from Cloudflare Web Analytics and Workers Analytics Engine. Re-running this workflow updates this issue instead of creating a duplicate._",
             ].join("\n");
 
             const titleQuery = "repo:" + context.repo.owner + "/" + context.repo.repo +
