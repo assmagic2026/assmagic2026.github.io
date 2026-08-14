@@ -79,7 +79,7 @@
     <link rel="preload" href="/ass-magic/experiments/realism/assets/audio/kick-transition.mp3" as="audio" type="audio/mpeg">
     <link rel="preload" href="/ass-magic/list/animalrobot/cover-17.jpg" as="image">
     <link rel="stylesheet" href="/ass-magic/style.css?v=realism-136">
-    <link rel="stylesheet" href="/ass-magic/experiments/realism/style.css?v=music-services-8">
+    <link rel="stylesheet" href="/ass-magic/experiments/realism/style.css?v=opening-progress-2">
     <link rel="stylesheet" href="/ass-magic/experiments/realism/site-readiness.css?v=international-root-1">
     <style>
       /* Keep the official entry usable while the project-site stylesheet is
@@ -138,7 +138,10 @@
           <i class="opening-box-face opening-box-bottom"></i>
         </div>
       </div>
-      <div id="opening-loading">LOADING...</div>
+      <div id="opening-loading" role="status" aria-live="polite">
+        <span id="opening-loading-label">LOADING</span>
+        <output id="opening-progress-value" aria-label="Loading progress">0%</output>
+      </div>
     </div>
     <main id="stage">
       <canvas id="scene" aria-label="惑星全体のリアル表現負荷試験" data-ass-i18n-aria-label="a11y.planetScene"></canvas>
@@ -366,6 +369,6 @@
       </div>
     </div>
 
-    <script type="module" src="/ass-magic/experiments/realism/planet-full.js?v=green-swarm-production-2"></script>
+    <script type="module" src="/ass-magic/experiments/realism/planet-full.js?v=opening-progress-2"></script>
   </body>
 </html>
