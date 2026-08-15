@@ -10,6 +10,6 @@
     "standalone"
   ],
   "orientation": "any",
-  "background_color": "#182f34",
-  "theme_color": "#182f34"
+  "background_color": "#000000",
+  "theme_color": "#000000"
 }
