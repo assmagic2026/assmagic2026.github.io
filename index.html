@@ -78,8 +78,11 @@
     <link rel="preload" href="/ass-magic/experiments/realism/assets/rocks-ground-04-normal-gl-1k.jpg" as="image">
     <link rel="preload" href="/ass-magic/experiments/realism/assets/audio/kick-transition.mp3" as="audio" type="audio/mpeg">
     <link rel="preload" href="/ass-magic/list/animalrobot/cover-17.jpg" as="image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&display=swap">
     <link rel="stylesheet" href="/ass-magic/style.css?v=realism-136">
-    <link rel="stylesheet" href="/ass-magic/experiments/realism/style.css?v=opening-title-offset-3">
+    <link rel="stylesheet" href="/ass-magic/experiments/realism/style.css?v=opening-futura-loading-1">
     <link rel="stylesheet" href="/ass-magic/experiments/realism/site-readiness.css?v=international-root-1">
     <style>
       /* Keep the official entry usable while the project-site stylesheet is
@@ -114,7 +117,7 @@
     <div id="opening-curtain" aria-hidden="false">
       <section id="experience-mode-selection" aria-label="体験を選択" data-ass-i18n-aria-label="a11y.experienceSelection">
         <header class="experience-mode-heading">
-          <h1 data-ass-i18n="opening.planet">ASSの惑星</h1>
+          <h1 data-ass-i18n="opening.planet"><span class="top-english-word">ASS</span>の惑星</h1>
           <p>ASS MAGIC official site</p>
         </header>
         <div class="experience-mode-options" role="group" aria-label="体験モード" data-ass-i18n-aria-label="a11y.experienceModes">
@@ -123,7 +126,7 @@
             <span data-ass-i18n="opening.mainDescription">壮大で小さな救いの物語</span>
           </button>
           <button class="experience-mode-option" type="button" data-experience-mode="chill" aria-pressed="false">
-            <strong data-ass-i18n="opening.chill">Chillモード</strong>
+            <strong data-ass-i18n="opening.chill"><span class="top-english-word">Chill</span>モード</strong>
             <span data-ass-i18n="opening.chillDescription">ただただ気持ちよく飛行</span>
           </button>
         </div>
@@ -139,8 +142,11 @@
         </div>
       </div>
       <div id="opening-loading" role="status" aria-live="polite">
-        <span id="opening-loading-label">LOADING</span>
-        <output id="opening-progress-value" aria-label="Loading progress">0%</output>
+        <div class="opening-loading-meta">
+          <span id="opening-loading-label">LOADING</span>
+          <output id="opening-progress-value" aria-label="Loading progress">0%</output>
+        </div>
+        <div id="opening-progress-track" aria-hidden="true"><i id="opening-progress-bar"></i></div>
       </div>
     </div>
     <main id="stage">
